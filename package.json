@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.ts",
-    "dev": "node --watch src/server.ts",
+    "dev": "node --watch --env-file .env src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,6 +14,8 @@
     "node": "25.1.0"
   },
   "dependencies": {
+    "@types/express": "^5.0.5",
+    "@types/node": "^24.10.0",
     "express": "^5.1.0"
   }
 }
