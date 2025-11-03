@@ -1,14 +1,16 @@
-import { Router} from "express"
-import { z } from "zod"
-import { StatusCodes } from "http-status-codes"
-import { hash, compare } from "bcrypt"
+import { Router} from "express";
+import { z } from "zod";
+import { StatusCodes } from "http-status-codes";
+import { hash, compare } from "bcrypt";
+import { db } from '../database.ts';
+
 
 export type User = {
     email: string,
     pwdHash: string
 }
 
-const users : User[] = []
+//const users : User[] = []
 
 const signupSchema = z.object({
     email: z.email(),
@@ -34,11 +36,14 @@ export function createAuthRoutes() {
                 return
             }
 
-            users.push({
+            /*users.push({
                 email: signupData.email,
                 pwdHash: await hash(signupData.password,10)
-            })
-
+            })*/
+            await db!.execute(`
+                INSERT INTO USERS (email, password) VALUES (?, ?)`,
+                [signupData.email, await hash(signupData.password,10)]
+            )
             res.sendStatus(StatusCodes.OK)
             return
         } catch (error) {
@@ -52,20 +57,25 @@ export function createAuthRoutes() {
         const body = req.body
         try {
             const loginData = loginSchema.parse(body)
-            const user = users.find(user => user.email == loginData.email)
+            //const user = users.find(user => user.email == loginData.email)
+            const user = await db!.query(`
+                SELECT id, email, password AS pwdHash from USERS WHERE email = ?`,
+            [loginData.email])
             
             if(!user){
                 res.sendStatus(StatusCodes.UNAUTHORIZED)
                 return
             }
-            
-            if(! (await compare(loginData.password,user.pwdHash))){
+            const userdata = user[0];
+            if(! (await compare(loginData.password,userdata.pwdHash))){
                 res.sendStatus(StatusCodes.UNAUTHORIZED)
                 return
             }
             
-            req.session.user = user
+            req.session.user = userdata
             res.sendStatus(StatusCodes.OK)
+            console.log(user.email);
+            return
             
         } catch (error) {
             console.log(error);
@@ -77,6 +87,8 @@ export function createAuthRoutes() {
     router.post('/logout', (req, res) => {
         req.session.user = null
         console.log("route logout!");
+        res.sendStatus(StatusCodes.OK);
+        return;
     })
 
     return router

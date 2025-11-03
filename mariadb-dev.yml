@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  mariadb:
+    image: mariadb
+    ports:
+      - "3307:3306"
+    environment:
+      - MARIADB_ROOT_PASSWORD=quizzeo-db-root-pwd
+      - MARIADB_DATABASE=quizzeo
+      - MARIADB_USER=Bob
+      - MARIADB_PASSWORD=your_password
+    container_name: quizzeo-db
