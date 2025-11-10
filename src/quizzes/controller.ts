@@ -92,6 +92,7 @@ export const insertQuiz = async (req: any, res: any) => {
     const { title, autor, question } = req.body;
     console.log(title, " ", autor ? autor : null, " ", question);
     try {
+        console.log('Parsing questions...');
         const allQuestions: Question[] = JSON.parse(question);
         const result = await insertQuizDb(title, autor ? autor : null, allQuestions);
         const response = {

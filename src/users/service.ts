@@ -13,6 +13,6 @@ export async function getUserById(id: number) {
 }
 
 export async function getUserQuizzesFromDb(userId: number) {
-    const quizzes =  await db!.query(`SELECT * FROM QUIZZES WHERE authorId = ?`, [userId]);
+    const quizzes =  await db!.query(`SELECT * FROM QUIZZES WHERE autor = ?`, [userId]);
     return quizzes;
 }
