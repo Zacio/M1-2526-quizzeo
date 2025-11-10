@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { db } from '../database.ts';
 import { shuffleArray } from '../global.ts';
-import { getDbQuizById, getDbQuizQuestionById, getDbQuizQuestionByQuizId, getDbQuizzes, insertQuestionDb, insertQuizDb } from './service.ts';
+import { getDbQuizById, getDbQuizQuestionById, getDbQuizQuestionByquizzId, getDbQuizzes, insertQuestionDb, insertQuizDb } from './service.ts';
 
 export type Question = {
     title: string,
@@ -21,9 +21,9 @@ export const getQuizzes = async (req: any, res: any) => {
 }
 
 export const getQuizById = async (req: any, res: any) => {
-    const quizId = req.params.id;
-    const quiz = await getDbQuizById(quizId);
-    const questions = await getDbQuizQuestionByQuizId(quizId);
+    const quizzId = req.params.id;
+    const quiz = await getDbQuizById(quizzId);
+    const questions = await getDbQuizQuestionByquizzId(quizzId);
 
     if (quiz.length == 0 || questions.length == 0) {
         res.sendStatus(StatusCodes.NOT_FOUND);
@@ -38,10 +38,10 @@ export const getQuizById = async (req: any, res: any) => {
 }
 
 export const getQuizQuestionDuo = async (req: any, res: any) => {
-    const quizId = req.params.id;
+    const quizzId = req.params.id;
     const questionId = req.params.questionId;
-    const quiz = await getDbQuizById(quizId);
-    const questions = await getDbQuizQuestionByQuizId(quizId);
+    const quiz = await getDbQuizById(quizzId);
+    const questions = await getDbQuizQuestionByquizzId(quizzId);
     if (quiz.length == 0 || questions.length == 0) {
         res.sendStatus(StatusCodes.NOT_FOUND);
         return;
@@ -49,7 +49,7 @@ export const getQuizQuestionDuo = async (req: any, res: any) => {
     const answerRand = Math.random() * 3;
     const questionDuo = {
         title: quiz[0].title,
-        quizId: quiz[0].id,
+        quizzId: quiz[0].id,
         mode: "duo",
         questionTitle: questions[0].title,
         correctAnswer: questions[0].correctAnswer,
@@ -61,9 +61,9 @@ export const getQuizQuestionDuo = async (req: any, res: any) => {
 }
 
 export const getQuizQuestion = async (req: any, res: any) => {
-    const quizId = req.params.id;
+    const quizzId = req.params.id;
     const questionId = req.params.questionId;
-    const quiz = await getDbQuizById(quizId);
+    const quiz = await getDbQuizById(quizzId);
     const questions = await getDbQuizQuestionById(questionId);
     if (quiz.length == 0 || questions.length == 0) {
         res.sendStatus(StatusCodes.NOT_FOUND);
@@ -78,7 +78,7 @@ export const getQuizQuestion = async (req: any, res: any) => {
     const shuffleAnswers = shuffleArray(allAnswers);
     const questionAll = {
         title: quiz[0].title,
-        quizId: quiz[0].id,
+        quizzId: quiz[0].id,
         mode: "normal",
         questionTitle: questions[0].title,
         correctAnswer: questions[0].correctAnswer,

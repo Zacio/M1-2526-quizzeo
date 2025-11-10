@@ -1,6 +1,6 @@
 import { db } from '../database.ts';
 import { getUserById, getUserQuizzesFromDb } from './service.ts';
-import { getDbQuizQuestionByQuizId } from '../quizzes/service.ts';
+import { getDbQuizQuestionByquizzId } from '../quizzes/service.ts';
 
 type User = {
     id: number,
@@ -19,7 +19,7 @@ export const getUserQuizzes = async (req: any, res: any) => {
     const quizzesList = [];
     const quizzes = await getUserQuizzesFromDb(id);
     for (const quiz of quizzes) {
-        const questions = await getDbQuizQuestionByQuizId(quiz.id);
+        const questions = await getDbQuizQuestionByquizzId(quiz.id);
         quizzesList.push({...quiz, questions: questions});
     }
 

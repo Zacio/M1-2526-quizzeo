@@ -45,7 +45,7 @@ export async function initDatabase(){
                 incorrectAnswer1 TEXT,
                 incorrectAnswer2 TEXT,
                 incorrectAnswer3 TEXT,
-                quizId INT
+                quizzId INT
             )
         `)
 
@@ -60,7 +60,7 @@ export async function initDatabase(){
         `)
 
         await db.execute(`
-            INSERT INTO QUESTIONS (title, correctAnswer, incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, quizId) 
+            INSERT INTO QUESTIONS (title, correctAnswer, incorrectAnswer1, incorrectAnswer2, incorrectAnswer3, quizzId) 
             VALUES 
             ('What is the capital of France?', 'Paris', 'London', 'Berlin', 'Madrid', ${quizzId[0].id}),
             ('What is the anthem of France?', 'La Marseillaise', 'God save the king', 'The Star-Spangled Banner', 'La Marseillaise', ${quizzId[0].id}),
@@ -85,7 +85,7 @@ export async function initDatabase(){
         console.log(quizz)
 
         const questions = await db.query(`
-            SELECT * FROM QUESTIONS where quizId = ${quizz[0].id}
+            SELECT * FROM QUESTIONS where quizzId = ${quizz[0].id}
         `)
         console.log(questions)
     }
