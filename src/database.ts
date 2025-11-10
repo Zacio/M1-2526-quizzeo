@@ -10,7 +10,9 @@ export async function initDatabase(){
         user: process.env.DB_USER,
         password: process.env.DB_PASSWORD,
         database: process.env.DB_DATABASE,
-        connectionLimit: 15
+        connectionLimit: 15,
+        connectTimeout: 10000,
+        acquireTimeout: 10000
     })
 
     //check if table QUIZZES exists

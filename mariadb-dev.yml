@@ -3,7 +3,7 @@ services:
   mariadb:
     image: mariadb
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       - MARIADB_ROOT_PASSWORD=quizzeo-db-root-pwd
       - MARIADB_DATABASE=quizzeo
