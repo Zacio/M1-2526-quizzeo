@@ -3,6 +3,7 @@ import { z } from "zod";
 import { StatusCodes } from "http-status-codes";
 import { hash, compare } from "bcrypt";
 import { db } from '../database.ts';
+import jwt from "jsonwebtoken";
 
 
 export type User = {
@@ -72,7 +73,16 @@ export function createAuthRoutes() {
                 return
             }
             
-            req.session.user = userdata
+            //old session login
+            //req.session.user = userdata
+            //JWT login
+            const token = jwt.sign(
+                {id:user.id}, process.env.JWT_SECRET!,
+                {expiresIn: '5min'}
+            )
+            console.log('jswt token',token);
+            res.cookie('auth_token', token, {httpOnly: true})
+            console.log("inside cookie :", res.getHeaders()['set-cookie']);
             res.sendStatus(StatusCodes.OK)
             console.log(user.email);
             return
@@ -85,8 +95,11 @@ export function createAuthRoutes() {
     })
 
     router.post('/logout', (req, res) => {
-        req.session.user = null
-        console.log("route logout!");
+        //old session logout
+        //req.session.user = null
+        //JWT logout
+        res.clearCookie('auth_token');
+        console.log("token : clear");
         res.sendStatus(StatusCodes.OK);
         return;
     })
