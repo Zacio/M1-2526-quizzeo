@@ -1,4 +1,5 @@
 import { shuffleArray } from "../global.ts";
+import stringSimilarity from "string-similarity"
 import type { Question, Mode } from "./questionTypes.ts"
 
 export function createChoice(question : Question, mode : Mode){
@@ -11,7 +12,7 @@ export function createChoice(question : Question, mode : Mode){
     choice.push(question.incorrectAnswer2);
     choice.push(question.incorrectAnswer3);
     return shuffleArray(choice);
-    }else{
+    }else if(mode == "duo"){
         const finalChoice : string[] = [];
         choice.push(question.incorrectAnswer1);
         choice.push(question.incorrectAnswer2);
@@ -21,5 +22,11 @@ export function createChoice(question : Question, mode : Mode){
         return shuffleArray(finalChoice);
     }
     
+
+}
+
+export function testStringAnswer(answer: string, correctAnswer: string){
+    var similarity = stringSimilarity.compareTwoStrings(answer, correctAnswer);
+    return similarity;
 
 }

@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import { describe, it } from "node:test";
-import { createChoice } from "../src/quizzes/vitestFunction.ts";
+import { createChoice, testStringAnswer } from "../src/quizzes/vitestFunction.ts";
 
 
 describe("square mode", () => {
@@ -13,6 +13,7 @@ describe("square mode", () => {
             incorrectAnswer3: 'D'
         }
         const choices = createChoice(question, "square");
+        assert(choices != undefined)
         assert(choices.length == 4);
         assert(choices.includes(question.correctAnswer));
         assert(choices.includes(question.incorrectAnswer1));
@@ -54,6 +55,8 @@ describe("duo mode", () => {
             incorrectAnswer3: 'D'
         }
         const choices = createChoice(question, "duo");
+        assert(choices != undefined)
+
         assert(choices.length == 2);
         assert(choices.includes(question.correctAnswer));
         assert(choices.includes(question.incorrectAnswer1) || choices.includes(question.incorrectAnswer2) || choices.includes(question.incorrectAnswer3));
@@ -105,5 +108,50 @@ describe("duo mode", () => {
             }
         }
         assert(getGoodAnswer.valueOf);
+    })
+})
+
+describe("hiden mode", () => {
+    it("result must be 1", () => {
+        const question = {
+            title: 'la question de test',
+            correctAnswer: 'Abcd',
+            incorrectAnswer1: 'Bcda',
+            incorrectAnswer2: 'Cdab',
+            incorrectAnswer3: 'Dabc'
+        };
+
+        const result: number = testStringAnswer("Abcd", question.correctAnswer);
+        console.log(result);
+        assert(result == 1)
+
+    })
+    it("result must be below 1 but bigger than 0", () => {
+        const question = {
+            title: 'la question de test',
+            correctAnswer: 'Abcd',
+            incorrectAnswer1: 'Bcda',
+            incorrectAnswer2: 'Cdab',
+            incorrectAnswer3: 'Dabc'
+        };
+
+        const result: number = testStringAnswer("Abcf", question.correctAnswer);
+        console.log(result);
+        assert(result < 1 && result > 0)
+
+    })
+    it("result must be 0", () => {
+        const question = {
+            title: 'la question de test',
+            correctAnswer: 'Abcd',
+            incorrectAnswer1: 'Bcda',
+            incorrectAnswer2: 'Cdab',
+            incorrectAnswer3: 'Dabc'
+        };
+
+        const result: number = testStringAnswer("zertyuyuio", question.correctAnswer);
+        console.log(result);
+        assert(result == 0)
+
     })
 })
