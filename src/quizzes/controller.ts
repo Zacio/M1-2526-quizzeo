@@ -2,14 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import { db } from '../database.ts';
 import { shuffleArray } from '../global.ts';
 import { getDbQuizById, getDbQuizQuestionById, getDbQuizQuestionByquizzId, getDbQuizzes, insertQuestionDb, insertQuizDb } from './service.ts';
-
-export type Question = {
-    title: string,
-    correctAnswer: string,
-    incorrectAnswer1: string,
-    incorrectAnswer2: string,
-    incorrectAnswer3: string
-}
+import type { Question } from './questionTypes.ts';
 
 export const getQuizzes = async (req: any, res: any) => {
     const page = req.query.page ? Number(req.query.page) : 1;

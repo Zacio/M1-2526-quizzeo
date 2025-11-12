@@ -60,6 +60,7 @@ export async function initDatabase(){
                 questionsAnswered INT DEFAULT 0 NOT NULL,
                 correctAnswers INT DEFAULT 0 NOT NULL,
                 totalQuestions INT NOT NULL,
+                type INT DEFAULT 1,
                 FOREIGN KEY (quizzId) REFERENCES QUIZZES(id),
                 FOREIGN KEY (userId) REFERENCES USERS(id)
             )

@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node src/server.ts",
     "dev": "node --watch --env-file .env src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/square.test.ts"
   },
   "author": "",
   "license": "ISC",

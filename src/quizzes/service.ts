@@ -1,7 +1,7 @@
 import { db } from '../database.ts';
 import { StatusCodes } from "http-status-codes"
 import createHttpError from "http-errors"
-import type { Question } from './controller.ts';
+import type { Question } from './questionTypes.ts';
 
 
 
