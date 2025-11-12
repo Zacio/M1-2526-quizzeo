@@ -77,12 +77,15 @@ export function createAuthRoutes() {
             //req.session.user = userdata
             //JWT login
             const token = jwt.sign(
-                {id:user.id}, process.env.JWT_SECRET!,
+                {id:userdata.id}, process.env.JWT_SECRET!,
                 {expiresIn: '5min'}
             )
             console.log('jswt token',token);
             res.cookie('auth_token', token, {httpOnly: true})
+
+            console.log(' inside token', jwt.decode(token));
             console.log("inside cookie :", res.getHeaders()['set-cookie']);
+            console.log('id : ', userdata.id);
             res.sendStatus(StatusCodes.OK)
             console.log(user.email);
             return

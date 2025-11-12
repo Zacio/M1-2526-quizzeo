@@ -49,6 +49,22 @@ export async function initDatabase(){
             )
         `)
 
+        await db.execute(`
+            CREATE TABLE RUNNED_QUIZZES (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                quizzId INT NOT NULL,
+                userId INT NOT NULL,
+                startedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+                endedAt DATETIME DEFAULT NULL,
+                questionsTimed JSON DEFAULT '{}' NOT NULL,
+                questionsAnswered INT DEFAULT 0 NOT NULL,
+                correctAnswers INT DEFAULT 0 NOT NULL,
+                totalQuestions INT NOT NULL,
+                FOREIGN KEY (quizzId) REFERENCES QUIZZES(id),
+                FOREIGN KEY (userId) REFERENCES USERS(id)
+            )
+        `)
+
         //generate a demo quizz on subject : france
         //generate 10 questions
         await db.execute(`
